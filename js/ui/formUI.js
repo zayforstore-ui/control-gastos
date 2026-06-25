@@ -19,6 +19,8 @@ const FormUI = {
       this._handleSubmit();
     });
 
+    this._initAmountFormatting();
+
     this._form.querySelector('#btn-reset').addEventListener('click', () => this.reset());
 
     this._setType('expense');
@@ -40,14 +42,47 @@ const FormUI = {
     ).join('');
   },
 
+  _initAmountFormatting() {
+    const input = this._form.querySelector('#amount');
+    input.addEventListener('input', () => {
+      let cursor = input.selectionStart;
+      const len = input.value.length;
+
+      let value = input.value.replace(/[^\d,]/g, '');
+      let decimal = '';
+      const commaIdx = value.indexOf(',');
+      if (commaIdx >= 0) {
+        decimal = ',' + value.slice(commaIdx + 1).replace(/,/g, '').slice(0, 2);
+        value = value.slice(0, commaIdx).replace(/,/g, '');
+      } else {
+        value = value.replace(/,/g, '');
+      }
+
+      const formatted = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      const newValue = formatted + decimal;
+
+      if (newValue !== input.value) {
+        const diff = newValue.length - len;
+        input.value = newValue;
+        input.setSelectionRange(cursor + diff, cursor + diff);
+      }
+    });
+  },
+
+  _parseAmount(raw) {
+    return parseFloat(raw.replace(/\./g, '').replace(',', '.'));
+  },
+
   _handleSubmit() {
     const type = this._form.querySelector('input[name="type"]').value;
-    const amount = this._form.querySelector('#amount').value;
+    const rawAmount = this._form.querySelector('#amount').value;
     const description = this._form.querySelector('#description').value;
     const category = this._form.querySelector('#category').value;
     const date = this._form.querySelector('#date').value;
 
-    if (!amount || Number(amount) <= 0) {
+    const amount = this._parseAmount(rawAmount);
+
+    if (!rawAmount || isNaN(amount) || amount <= 0) {
       this._shakeField('#amount');
       return;
     }
@@ -66,7 +101,7 @@ const FormUI = {
 
   _shakeField(selector) {
     const el = this._form.querySelector(selector);
-    el.style.borderColor = '#ef4444';
+    el.style.borderColor = '#fb7185';
     el.classList.add('animate-shake');
     setTimeout(() => {
       el.style.borderColor = '';

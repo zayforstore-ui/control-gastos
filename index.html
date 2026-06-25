@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#111827">
+  <meta name="theme-color" content="#1e293b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Control de Gastos</title>
@@ -15,11 +15,11 @@
   </script>
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
-  <header class="bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 px-5 py-3 flex-shrink-0 sticky top-0 z-10">
+<body class="bg-slate-800 text-slate-100 min-h-screen flex flex-col">
+  <header class="bg-slate-800/95 backdrop-blur-sm border-b border-slate-700 px-5 py-3 flex-shrink-0 sticky top-0 z-10">
     <div class="flex items-center justify-between">
       <h1 class="text-lg font-bold">💰 Control de Gastos</h1>
-      <button id="btn-export" class="text-xs text-gray-500 hover:text-gray-300 transition-colors px-2 py-1 rounded-lg hover:bg-gray-800" title="Exportar datos">📤</button>
+      <button id="btn-export" class="text-xs text-slate-400 hover:text-slate-200 transition-colors px-2 py-1 rounded-lg hover:bg-slate-700" title="Exportar datos">📤</button>
     </div>
   </header>
 
@@ -29,7 +29,7 @@
       <form id="transaction-form" class="space-y-4" autocomplete="off">
         <input type="hidden" name="type" value="expense">
 
-        <div class="bg-gray-800 rounded-2xl p-1.5 flex">
+        <div class="bg-slate-700 rounded-2xl p-1.5 flex border border-slate-600">
           <button type="button" class="toggle-btn flex-1 py-3 text-center font-medium rounded-xl transition-all duration-200 text-sm" data-type="expense">
             💸 Gasto
           </button>
@@ -39,33 +39,33 @@
         </div>
 
         <div>
-          <label class="block text-sm text-gray-400 mb-1.5 font-medium">Monto</label>
+          <label class="block text-sm text-slate-400 mb-1.5 font-medium">Monto</label>
           <div class="relative">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium text-lg">$</span>
-            <input type="number" id="amount" class="input-field pl-8" placeholder="0.00" step="0.01" min="0" inputmode="decimal">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium text-lg">$</span>
+            <input type="text" id="amount" class="input-field pl-8" placeholder="0" inputmode="numeric">
           </div>
         </div>
 
         <div>
-          <label class="block text-sm text-gray-400 mb-1.5 font-medium">Descripción</label>
+          <label class="block text-sm text-slate-400 mb-1.5 font-medium">Descripción</label>
           <input type="text" id="description" class="input-field" placeholder="¿En qué gastaste o recibiste?" maxlength="100">
         </div>
 
         <div>
-          <label class="block text-sm text-gray-400 mb-1.5 font-medium">Categoría</label>
+          <label class="block text-sm text-slate-400 mb-1.5 font-medium">Categoría</label>
           <select id="category" class="input-field"></select>
         </div>
 
         <div>
-          <label class="block text-sm text-gray-400 mb-1.5 font-medium">Fecha</label>
+          <label class="block text-sm text-slate-400 mb-1.5 font-medium">Fecha</label>
           <input type="date" id="date" class="input-field">
         </div>
 
         <div class="flex gap-3 pt-2">
-          <button type="button" id="btn-reset" class="flex-1 py-3.5 px-4 rounded-2xl text-gray-400 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 transition-all text-sm font-medium">
+          <button type="button" id="btn-reset" class="flex-1 py-3.5 px-4 rounded-2xl text-slate-400 bg-slate-700 hover:bg-slate-600 active:bg-slate-500 transition-all text-sm font-medium border border-slate-600">
             Cancelar
           </button>
-          <button type="submit" class="flex-1 py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-400 text-white font-semibold transition-all active:scale-[0.98] text-sm shadow-lg shadow-emerald-600/20">
+          <button type="submit" class="flex-1 py-3.5 px-4 rounded-2xl bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-400 text-white font-semibold transition-all active:scale-[0.98] text-sm shadow-lg shadow-cyan-500/30">
             ✅ Agregar
           </button>
         </div>
@@ -74,7 +74,7 @@
     <section id="history-tab" class="tab-content"></section>
   </main>
 
-  <nav class="bg-gray-800 border-t border-gray-700/50 flex-shrink-0 safe-area-bottom">
+  <nav class="bg-slate-700 border-t border-slate-600/50 flex-shrink-0 safe-area-bottom">
     <div class="flex">
       <button class="tab-btn active flex-1 flex flex-col items-center py-2.5 text-xs font-medium transition-colors duration-200" data-tab="balance">
         <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

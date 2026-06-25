@@ -9,12 +9,12 @@ const BalanceUI = {
     const { income, expenses, balance } = TransactionService.getBalance();
     const stats = TransactionService.getStats();
 
-    const fmt = n => '$' + n.toLocaleString('es-MX', { minimumFractionDigits: 2 });
+    const fmt = n => '$' + n.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 
     this._el.innerHTML = `
       <div class="text-center mb-6 pt-2">
-        <p class="text-gray-400 text-sm mb-1 font-medium">Saldo Disponible</p>
-        <p class="balance-number ${balance >= 0 ? 'text-emerald-400' : 'text-red-400'}">
+        <p class="text-slate-400 text-sm mb-1 font-medium">Saldo Disponible</p>
+        <p class="balance-number ${balance >= 0 ? 'text-emerald-400' : 'text-rose-400'}">
           ${fmt(balance)}
         </p>
       </div>
@@ -24,25 +24,25 @@ const BalanceUI = {
           <p class="text-xl font-bold text-emerald-400">${fmt(income)}</p>
         </div>
         <div class="card text-center">
-          <p class="text-red-400/80 text-xs font-medium mb-1">Gastos</p>
-          <p class="text-xl font-bold text-red-400">${fmt(expenses)}</p>
+          <p class="text-rose-400/80 text-xs font-medium mb-1">Gastos</p>
+          <p class="text-xl font-bold text-rose-400">${fmt(expenses)}</p>
         </div>
       </div>
       <div class="card">
-        <p class="text-gray-400 text-xs font-medium mb-3 uppercase tracking-wider">Resumen</p>
+        <p class="text-slate-400 text-xs font-medium mb-3 uppercase tracking-wider">Resumen</p>
         <div class="space-y-2">
           <div class="flex justify-between text-sm">
-            <span class="text-gray-400">Transacciones</span>
-            <span class="text-gray-100 font-medium">${stats.total}</span>
+            <span class="text-slate-400">Transacciones</span>
+            <span class="text-slate-100 font-medium">${stats.total}</span>
           </div>
           ${stats.topCategory ? `
           <div class="flex justify-between text-sm">
-            <span class="text-gray-400">Mayor gasto en</span>
-            <span class="text-gray-100 font-medium">${TransactionService.CATEGORY_EMOJIS[stats.topCategory] || ''} ${stats.topCategory}</span>
+            <span class="text-slate-400">Mayor gasto en</span>
+            <span class="text-slate-100 font-medium">${TransactionService.CATEGORY_EMOJIS[stats.topCategory] || ''} ${stats.topCategory}</span>
           </div>` : ''}
           <div class="flex justify-between text-sm">
-            <span class="text-gray-400">Relación gasto/ingreso</span>
-            <span class="text-gray-100 font-medium">${income > 0 ? Math.round((expenses / income) * 100) + '%' : '—'}</span>
+            <span class="text-slate-400">Relación gasto/ingreso</span>
+            <span class="text-slate-100 font-medium">${income > 0 ? Math.round((expenses / income) * 100) + '%' : '—'}</span>
           </div>
         </div>
       </div>
