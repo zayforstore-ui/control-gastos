@@ -9,7 +9,7 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: #525252;
   border-radius: 99px;
 }
 
@@ -45,27 +45,27 @@ body {
 
 .input-field {
   width: 100%;
-  background-color: #475569;
-  color: #f1f5f9;
+  background-color: #525252;
+  color: #f5f5f5;
   border-radius: 16px;
   padding: 14px 16px;
   font-size: 16px;
   line-height: 1.4;
-  border: 2px solid #64748b;
+  border: 2px solid #737373;
   transition: border-color 0.2s, background-color 0.2s;
   outline: none;
 }
 .input-field:focus {
-  border-color: #22d3ee;
-  background-color: #334155;
+  border-color: #10b981;
+  background-color: #404040;
 }
 .input-field::placeholder {
-  color: #94a3b8;
+  color: #a3a3a3;
 }
 
 select.input-field {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394A3B8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23A3A3A3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
   background-size: 20px;
@@ -82,24 +82,24 @@ select.input-field {
 }
 
 .tab-btn {
-  color: #64748b;
+  color: #737373;
   transition: color 0.2s;
 }
 .tab-btn.active {
-  color: #22d3ee;
+  color: #10b981;
 }
 .tab-btn.active svg {
-  stroke: #22d3ee;
+  stroke: #10b981;
 }
 .tab-btn.active::after {
   content: '';
   display: block;
   width: 20px;
   height: 3px;
-  background: #22d3ee;
+  background: #10b981;
   border-radius: 99px;
   margin: 2px auto 0;
-  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
 }
 
 .history-item:last-child {
@@ -159,8 +159,8 @@ input[type="number"] {
 }
 
 .card {
-  background-color: #334155;
-  border: 1px solid #475569;
+  background-color: #404040;
+  border: 1px solid #525252;
   border-radius: 1rem;
   padding: 1rem;
 }
