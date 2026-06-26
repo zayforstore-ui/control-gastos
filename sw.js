@@ -1,4 +1,4 @@
-const CACHE = 'cg-v3'
+const CACHE = 'cg-v4'
 
 const ASSETS = [
   './',
@@ -34,11 +34,12 @@ self.addEventListener('activate', (e) => {
 })
 
 self.addEventListener('fetch', (e) => {
+  if (!e.request.url.startsWith(self.location.origin)) return
   e.respondWith(
     caches.match(e.request).then((cached) => {
       if (cached) return cached
       return fetch(e.request).then((res) => {
-        if (res.ok && e.request.url.startsWith(self.location.origin)) {
+        if (res.ok) {
           const copy = res.clone()
           caches.open(CACHE).then((c) => c.put(e.request, copy))
         }
