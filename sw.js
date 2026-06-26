@@ -1,4 +1,4 @@
-const CACHE = 'cg-v2'
+const CACHE = 'cg-v3'
 
 const ASSETS = [
   './',
@@ -12,6 +12,8 @@ const ASSETS = [
   './js/ui/formUI.js',
   './js/ui/historyUI.js',
   './js/ui/chartUI.js',
+  './js/sync.js',
+  './js/ui/settingsUI.js',
   './js/app.js',
   './assets/icons/icon-192.svg',
   './assets/icons/icon-512.svg',

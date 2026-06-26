@@ -164,3 +164,11 @@ input[type="number"] {
   border-radius: 1rem;
   padding: 1rem;
 }
+
+.hidden {
+  display: none !important;
+}
+
+.btn-sm:active {
+  transform: scale(0.97);
+}

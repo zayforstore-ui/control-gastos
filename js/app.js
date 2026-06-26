@@ -4,14 +4,17 @@
   function init() {
     BalanceUI.init('balance-tab');
     FormUI.init('transaction-form', (data) => {
-      TransactionService.add(data);
+      const tx = TransactionService.add(data);
       refresh();
+      if (Sync.isConnected()) Sync.addTransaction(tx).catch(() => {});
     });
     HistoryUI.init('history-tab', (id) => {
       TransactionService.delete(id);
       refresh();
+      if (Sync.isConnected()) Sync.deleteTransaction(id).catch(() => {});
     });
 
+    SettingsUI.init('settings-overlay', () => refresh());
     initTabs();
     refresh();
   }
