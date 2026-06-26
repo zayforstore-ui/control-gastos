@@ -46,6 +46,13 @@ const BalanceUI = {
           </div>
         </div>
       </div>
+      ${expenses > 0 ? `
+      <div class="card mt-4" id="chart-card">
+        <p class="text-neutral-400 text-xs font-medium mb-3 uppercase tracking-wider">Distribución de Gastos</p>
+        <div class="relative" style="height:220px">
+          <canvas id="expense-chart"></canvas>
+        </div>
+      </div>` : ''}
     `;
   }
 };

@@ -11,6 +11,7 @@ const ASSETS = [
   './js/ui/balanceUI.js',
   './js/ui/formUI.js',
   './js/ui/historyUI.js',
+  './js/ui/chartUI.js',
   './js/app.js',
   './assets/icons/icon-192.svg',
   './assets/icons/icon-512.svg',

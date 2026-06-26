@@ -39,6 +39,7 @@
 
   function refresh() {
     BalanceUI.render();
+    ChartUI.render();
     HistoryUI.render();
   }
 
