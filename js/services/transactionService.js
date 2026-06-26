@@ -58,6 +58,41 @@ const TransactionService = {
     return grouped;
   },
 
+  getFiltered({ months, type, category }) {
+    return this.getAll().filter(t => {
+      if (months !== 'all') {
+        const parts = t.date.split('-');
+        if (`${parts[0]}-${parts[1]}` !== months) return false;
+      }
+      if (type !== 'all' && t.type !== type) return false;
+      if (category !== 'all' && t.category !== category) return false;
+      return true;
+    });
+  },
+
+  getFilteredGroupedByDate(filters) {
+    const transactions = this.getFiltered(filters);
+    const grouped = {};
+    for (const t of transactions) {
+      if (!grouped[t.date]) grouped[t.date] = [];
+      grouped[t.date].push(t);
+    }
+    return grouped;
+  },
+
+  getAvailableMonths() {
+    const months = new Set();
+    for (const t of Storage.getAll()) {
+      const p = t.date.split('-');
+      months.add(`${p[0]}-${p[1]}`);
+    }
+    return [...months].sort().reverse();
+  },
+
+  getAllCategories() {
+    return [...new Set([...this.CATEGORIES.expense, ...this.CATEGORIES.income])];
+  },
+
   getStats() {
     const transactions = Storage.getAll();
     const total = transactions.length;

@@ -1,6 +1,7 @@
 const HistoryUI = {
   _el: null,
   _onDelete: null,
+  _filters: { months: 'all', type: 'all', category: 'all' },
 
   init(id, onDelete) {
     this._el = document.getElementById(id);
@@ -14,19 +15,19 @@ const HistoryUI = {
   },
 
   render() {
-    const grouped = TransactionService.getGroupedByDate();
-    const dates = Object.keys(grouped).sort((a, b) => {
-      if (a < b) return 1;
-      if (a > b) return -1;
-      return 0;
-    });
+    const filters = this._filters;
+    const hasFilters = filters.months !== 'all' || filters.type !== 'all' || filters.category !== 'all';
+    const grouped = TransactionService.getFilteredGroupedByDate(filters);
+    const dates = Object.keys(grouped).sort((a, b) => (a < b ? 1 : a > b ? -1 : 0));
+
+    let filterBar = this._buildFilterBar(filters, hasFilters);
 
     if (dates.length === 0) {
-      this._el.innerHTML = `
-        <div class="flex flex-col items-center justify-center py-16 text-neutral-500">
-          <span class="text-6xl mb-4">📭</span>
-          <p class="text-lg font-medium mb-1">Sin movimientos</p>
-          <p class="text-sm">Registra tu primer ingreso o gasto</p>
+      this._el.innerHTML = filterBar + `
+        <div class="flex flex-col items-center justify-center py-12 text-neutral-500">
+          <span class="text-5xl mb-3">🔍</span>
+          <p class="text-base font-medium mb-1">${hasFilters ? 'Sin resultados' : 'Sin movimientos'}</p>
+          <p class="text-sm">${hasFilters ? 'Prueba con otros filtros' : 'Registra tu primer ingreso o gasto'}</p>
         </div>
       `;
       return;
@@ -49,14 +50,14 @@ const HistoryUI = {
     const fmt = n => '$' + n.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
     const emojis = TransactionService.CATEGORY_EMOJIS;
 
-    let html = '';
+    let listHtml = '';
     for (const date of dates) {
       const items = grouped[date];
       const dayNet = items.reduce((sum, t) =>
         t.type === 'income' ? sum + t.amount : sum - t.amount, 0
       );
 
-      html += `
+      listHtml += `
         <div class="mb-5">
           <div class="flex items-center justify-between px-1 py-2 mb-1">
             <span class="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
@@ -89,7 +90,69 @@ const HistoryUI = {
       `;
     }
 
-    this._el.innerHTML = html;
+    this._el.innerHTML = filterBar + listHtml;
+    this._bindFilterEvents();
+  },
+
+  _buildFilterBar(filters, hasFilters) {
+    const months = TransactionService.getAvailableMonths();
+    const allCats = TransactionService.getAllCategories();
+    const monthName = (ym) => {
+      const d = new Date(+ym.split('-')[0], +ym.split('-')[1] - 1);
+      return d.toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
+    };
+
+    return `
+      <div class="mb-4 space-y-2">
+        <div class="grid grid-cols-2 gap-2">
+          <select id="filter-month" class="input-field text-sm py-2.5">
+            <option value="all">📅 Todos los meses</option>
+            ${months.map(m => `<option value="${m}" ${filters.months === m ? 'selected' : ''}>${monthName(m)}</option>`).join('')}
+          </select>
+          <select id="filter-type" class="input-field text-sm py-2.5">
+            <option value="all">📋 Todos</option>
+            <option value="income" ${filters.type === 'income' ? 'selected' : ''}>💰 Ingresos</option>
+            <option value="expense" ${filters.type === 'expense' ? 'selected' : ''}>💸 Gastos</option>
+          </select>
+        </div>
+        <div class="flex gap-2">
+          <select id="filter-category" class="input-field text-sm py-2.5 flex-1">
+            <option value="all">🏷️ Todas las categorías</option>
+            ${allCats.map(c => `<option value="${c}" ${filters.category === c ? 'selected' : ''}>${TransactionService.CATEGORY_EMOJIS[c] || '📦'} ${c}</option>`).join('')}
+          </select>
+          <button id="btn-clear-filters" class="px-3.5 py-2.5 rounded-xl bg-neutral-700 border border-neutral-600 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-600 transition-all text-sm font-medium ${hasFilters ? '' : 'opacity-30'}" ${hasFilters ? '' : 'disabled'}>
+            ✕
+          </button>
+        </div>
+      </div>
+    `;
+  },
+
+  _bindFilterEvents() {
+    const month = this._el.querySelector('#filter-month');
+    const type = this._el.querySelector('#filter-type');
+    const category = this._el.querySelector('#filter-category');
+    const clear = this._el.querySelector('#btn-clear-filters');
+
+    const onChange = () => {
+      this._filters = {
+        months: month.value,
+        type: type.value,
+        category: category.value,
+      };
+      this.render();
+    };
+
+    month.addEventListener('change', onChange);
+    type.addEventListener('change', onChange);
+    category.addEventListener('change', onChange);
+
+    if (clear) {
+      clear.addEventListener('click', () => {
+        this._filters = { months: 'all', type: 'all', category: 'all' };
+        this.render();
+      });
+    }
   },
 
   _escapeHtml(str) {
